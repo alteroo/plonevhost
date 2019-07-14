@@ -3,7 +3,8 @@
 
 
 
-nginx-proxy sets up a container running nginx and [docker-gen][1].  docker-gen generates reverse proxy configs for nginx and reloads nginx when containers are started and stopped.
+This is based on jwilder/nginx-proxy.
+It sets up a container running nginx and [docker-gen][1].  docker-gen generates reverse proxy configs for nginx and reloads nginx when containers are started and stopped.
 
 See [Automated Nginx Reverse Proxy for Docker][2] for why you might want to use this.
 
@@ -11,12 +12,12 @@ See [Automated Nginx Reverse Proxy for Docker][2] for why you might want to use 
 
 To run it:
 
-    $ docker run -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock:ro jwilder/nginx-proxy
+    $ docker run -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock:ro alteroo/plonevhost
 
 Then start any containers you want proxied with an env var `VIRTUAL_HOST=subdomain.youdomain.com`
 and a Plone Path `VIRTUAL_PLONE_PATH=Plone` (this represents path to the plone site).
 
-    $ docker run -e VIRTUAL_HOST=foo.bar.com  ...
+    $ docker run -e VIRTUAL_HOST=foo.bar.com -e VIRTUAL_PLONE_PATH=Plone  ...
 
 The containers being proxied must [expose](https://docs.docker.com/engine/reference/run/#expose-incoming-ports) the port to be proxied, either by using the `EXPOSE` directive in their `Dockerfile` or by using the `--expose` flag to `docker run` or `docker create`.
 
@@ -30,7 +31,7 @@ The nginx-proxy images are available in two flavors.
 
 This image uses the debian:jessie based nginx image.
 
-    $ docker pull jwilder/nginx-proxy:latest
+    $ docker pull alteroo/plonevhost:latest
 
 #### jwilder/nginx-proxy:alpine
 
